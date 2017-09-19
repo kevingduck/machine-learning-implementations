@@ -13,7 +13,8 @@ import time
 style.use('ggplot')
 
 quandl.ApiConfig.api_key = "xXE3jyYzZivcBnNHTnBM"
-df = quandl.get('WIKI/GOOGL')
+ticker = raw_input('Enter ticker symbol: ')
+df = quandl.get('WIKI/{}'.format(ticker))
 
 df = df[['Adj. Open', 'Adj. High', 'Adj. Close', 'Adj. Volume']]
 df['HL_PCT'] = (df['Adj. High'] - df['Adj. Close']) / df['Adj. Close'] * 100.0
