@@ -14,7 +14,7 @@ from sklearn.linear_model import LinearRegression
 import time
 import quandl_api_key
 
-style.use('fivethirtyeight')
+style.use('ggplot') #'fivethirtyeight'
 
 quandl.ApiConfig.api_key = quandl_api_key.get_key()
 ticker = raw_input('Enter ticker symbol: ').upper()
@@ -30,7 +30,7 @@ forecast_col = 'Adj. Close'
 df.fillna(-99999, inplace=True)
 
 # Extend forecast out by 1% more of the total data
-forecast_out = int(math.ceil(0.1*len(df)))
+forecast_out = int(math.ceil(0.01*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
 
@@ -48,18 +48,21 @@ y = np.array(df['label'])
 
 # Shuffle up data and use 20% as training data
 X_train, X_test, y_train, y_test = cross_validation.train_test_split(X, y, test_size=0.2)
+
 # n_jobs is optional; sets number of processes you run at once; -1 uses as many as possible
-# clf = LinearRegression(n_jobs=-1)
-#
-# # Easy to switch to another classifier:
-# # clf = svm.SVR()
-# clf.fit(X_train, y_train)
-#
+clf = LinearRegression(n_jobs=-1)
+
+# Easy to switch to another classifier:
+# clf = svm.SVR(kernel='rbf', C=1e3, gamma=0.1)
+
+clf.fit(X_train, y_train)
+
+# Optional: Use pickling instead of re-running classifier every time.
 # with open ('linearregression.pickle', 'wb') as f:
 #     pickle.dump(clf, f)
-
-pickle_in = open('linearregression.pickle', 'rb')
-clf = pickle.load(pickle_in)
+#
+# pickle_in = open('linearregression.pickle', 'rb')
+# clf = pickle.load(pickle_in)
 
 accuracy = clf.score(X_test, y_test)
 # print("Forecast_out: {} days".format(forecast_out))
