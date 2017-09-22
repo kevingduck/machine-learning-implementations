@@ -30,7 +30,7 @@ forecast_col = 'Adj. Close'
 df.fillna(-99999, inplace=True)
 
 # Extend forecast out by 1% more of the total data
-forecast_out = int(math.ceil(0.01*len(df)))
+forecast_out = int(math.ceil(0.05*len(df)))
 
 df['label'] = df[forecast_col].shift(-forecast_out)
 
