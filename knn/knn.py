@@ -3,7 +3,7 @@ import numpy as np
 from sklearn import preprocessing, cross_validation, neighbors
 import pandas as pd
 
-csv = str(raw_input("Filename (csv)? :" ))
+csv = str(raw_input("Filename (csv)?: " ))
 df = pd.read_csv(csv)
 df.replace('?', -99999, inplace=True)
 df.drop(['id'], 1, inplace=True)
