@@ -6,7 +6,7 @@ import pandas as pd
 csv = str(raw_input("Filename (csv)?: " ))
 df = pd.read_csv(csv)
 df.replace('?', -99999, inplace=True)
-df.drop(['id'], 1, inplace=True)
+df.drop(['id'], 1, inplace=True) # Drop useless ID column to improve accuracy
 
 X = np.array(df.drop(['class'], 1))
 y = np.array(df['class'])
