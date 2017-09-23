@@ -1,5 +1,5 @@
 # Implementation of k_nearest_neighbors classifier: Using measurements of
-# geometrical properties of kernels belonging to classify into three different
+# geometrical properties of kernels to classify into three different
 # varieties of wheat. A soft X-ray technique and GRAINS package were used to
 # construct all seven, real-valued attributes.
 # Implementation based on YT series by Sentdex
