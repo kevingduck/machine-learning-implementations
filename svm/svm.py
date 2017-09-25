@@ -17,9 +17,9 @@ class SupportVectorMachine():
 		opt_dict = {}
 
 		transforms = [[1,1],
-			      [-1,1],
-			      [-1,-1],
-			      [1,-1]]
+				      [-1,1],
+				      [-1,-1],
+				      [1,-1]]
 
 		all_data = []
 		for yi in self.data:
@@ -73,48 +73,49 @@ class SupportVectorMachine():
 			latest_optimum = opt_choice[0][0]+step*2
 
 
-	def predict(self, features):
+	def predict(self, features, data=None):
 		# sign of (X * W + b) (pos or neg)
 		classification = np.sign(np.dot(np.array(features), self.w) + self.b)
 		if classification != 0 and self.visualization:
-			self.ax.scatter(features[0], features[1], a=200, marker=p, c=self.colors[classification])
+			self.ax.scatter(features[0], features[1], a=200, marker='*', c=self.colors[classification])
 
 		return classification
 
 	def visualize(self):
   		[[self.ax.scatter(x[0], x[1],s=100, color=self.colors[i]) for x in data_dict[i]] for i in data_dict]
 
-
-		def hyperplane(x,w,b,v):
 		# When visualzing, ppl want to see data points plotted and SV hyperplanes and decison boundary
 		# hyperplanes but this stuff is just for looks ... it doesn't actually affect the SVM when it's
 		# calculated
-			return (-w[0]*x-b+v) / w[1]
+		def hyperplane(x, w, b, v):
+			return (-w[0] * x - b + v) / w[1]
 
-		datarange = (self.min_feature_value*0.9, self.max_feature_value*1.1)
+		datarange = (self.min_feature_value * 0.9, self.max_feature_value * 1.1)
 		hyp_x_min = datarange[0]
 		hyp_x_max = datarange[1]
 
 		# (w*x+b) = 1 positive support vector hyperplane
 		psv1 = hyperplane(hyp_x_min, self.w, self.b, 1)
 		psv2 = hyperplane(hyp_x_max, self.w, self.b, 1)
-		self.ax.plot([hyp_x_min,hyp_x_max],[psv1,psv2])
+		self.ax.plot([hyp_x_min,hyp_x_max],[psv1,psv2], 'k')
 
 		# (w*x+b) = -1
 		# negative support vector hyperplane
 		nsv1 = hyperplane(hyp_x_min, self.w, self.b, -1)
 		nsv2 = hyperplane(hyp_x_max, self.w, self.b, -1)
-		self.ax.plot([hyp_x_min,hyp_x_max],[nsv1,nsv2])
+		self.ax.plot([hyp_x_min,hyp_x_max],[nsv1,nsv2], 'k')
 
 		# (w*x+b) = 0
 		# decision boundary
 		db1 = hyperplane(hyp_x_min, self.w, self.b, 0)
 		db2 = hyperplane(hyp_x_max, self.w, self.b, 0)
-		self.ax.plot([hyp_x_min,hyp_x_max],[db1,db2])
+		self.ax.plot([hyp_x_min,hyp_x_max],[db1,db2], 'y--')
+
+		plt.show()
 
 data_dict = {-1:np.array([[1,7],[2,8],[3,8]]),
 	      1:np.array([[5,1],[6,-1],[7,3]])}
 
-svm = Support_Vector_Machine()
+svm = SupportVectorMachine()
 svm.fit(data=data_dict)
 svm.visualize()
